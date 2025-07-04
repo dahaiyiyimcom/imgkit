@@ -8,6 +8,7 @@ require (
 )
 
 require (
+	github.com/chai2010/webp v1.4.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	golang.org/x/image v0.13.0 // indirect
 )
