@@ -1,4 +1,4 @@
-module github.com/dahaiyiyim/imgkit
+module github.com/dahaiyiyim/imgkit/v2
 
 go 1.20
 
