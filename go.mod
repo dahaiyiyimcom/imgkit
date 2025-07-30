@@ -1,4 +1,4 @@
-module github.com/akatis/go-image-RCS3
+module github.com/dahaiyiyim/imgkit
 
 go 1.20
 
