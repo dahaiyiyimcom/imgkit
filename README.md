@@ -5,19 +5,19 @@ The purpose of this package is to _image resizing_, _compressing_ processes and 
 ## How can use this package?
 ### First of all install package and import
 ```cmd
-go get github.com/akatis/go-image-RMSE
+go get "github.com/dahaiyiyim/imgkit"
 ```
 ```go
-import RCS3 "github.com/akatis/go-image-RCS3"
+import imgkit "github.com/dahaiyiyim/imgkit"
 ```
 ### Resizing and compressing image with using ImgCompress() method.
 ```go
 base64Str := "image_base64_string"
-imageFile, _ := RCS3.ImgCompress(240, 240, base64Str)
+imageFile, _ := imgkit.ImgCompress(240, 240, base64Str)
 ```
 ### Create config with using New() method.
 ```go
-config := RCS3.New(&RCS3.S3Config{
+config := imgkit.New(&imgkit.S3Config{
 S3_ACCESS_KEY: "YOUR_ACCESS_KEY",
 S3_SECRET_KEY: "YOUR_SECRET_KEY",
 S3_REGION:     "YOUR_REGION",
