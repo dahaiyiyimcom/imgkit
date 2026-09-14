@@ -58,7 +58,7 @@ func (s3Config *S3Config) AddS3(imageFile, imagePath string) error {
 
 		return nil
 	}
-	imgExt := imageFile[11:index]
+	imgExt := strings.ToLower(imageFile[11:index])
 	imageBase64, err := base64.StdEncoding.DecodeString(imageFile[index+8:])
 	if err != nil {
 		return err

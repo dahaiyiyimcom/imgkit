@@ -18,7 +18,7 @@ func ImgResize(width, height uint, quality int, imgBase64 string) (string, error
 		return "", errors.New("invalid image format")
 	}
 
-	imgExt := imgBase64[11:index]
+	imgExt := strings.ToLower(imgBase64[11:index])
 	unbasedImage, err := base64.StdEncoding.DecodeString(imgBase64[index+8:])
 	if err != nil {
 		return "", err
@@ -29,10 +29,16 @@ func ImgResize(width, height uint, quality int, imgBase64 string) (string, error
 	switch imgExt {
 	case "png":
 		img, err = png.Decode(bytes.NewReader(unbasedImage))
+		if err == nil {
+			img = flattenToWhiteRGBA(img)
+		}
 	case "jpeg", "jpg":
 		img, _, err = image.Decode(bytes.NewReader(unbasedImage))
 	case "webp":
 		img, err = webp.Decode(bytes.NewReader(unbasedImage))
+		if err == nil {
+			img = flattenToWhiteRGBA(img)
+		}
 	default:
 		return "", errors.New("unsupported image format")
 	}
