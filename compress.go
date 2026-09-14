@@ -21,7 +21,7 @@ func ImgCompress(width, height uint, quality int, imgBase64 string) (string, err
 	if index < 0 {
 		return "", errors.New("Invalid image")
 	}
-	imgExt := imgBase64[11:index]
+	imgExt := strings.ToLower(imgBase64[11:index])
 
 	unbasedImage, err := base64.StdEncoding.DecodeString(imgBase64[index+8:])
 	if err != nil {
@@ -34,10 +34,11 @@ func ImgCompress(width, height uint, quality int, imgBase64 string) (string, err
 	case "png":
 		img, err := png.Decode(bytes.NewReader(unbasedImage))
 		if err != nil {
-			panic("bad png")
+			return "", err
 		}
+		flattened := flattenToWhiteRGBA(img)
 
-		resizedImage := resize.Resize(width, height, img, resize.Lanczos3)
+		resizedImage := resize.Resize(width, height, flattened, resize.Lanczos3)
 		buf := new(bytes.Buffer)
 		if err = jpeg.Encode(buf, resizedImage, &jpeg.Options{Quality: quality}); err != nil {
 			return "", err
@@ -70,7 +71,8 @@ func ImgCompress(width, height uint, quality int, imgBase64 string) (string, err
 		if err != nil {
 			return "", err
 		}
-		resizedImage := resize.Resize(width, height, img, resize.Lanczos3)
+		flattened := flattenToWhiteRGBA(img)
+		resizedImage := resize.Resize(width, height, flattened, resize.Lanczos3)
 
 		var buf bytes.Buffer
 		if err = jpeg.Encode(&buf, resizedImage, nil); err != nil {
@@ -94,7 +96,7 @@ func ImgCompressToWebP(width, height uint, maxSizeKB int, imgBase64 string) (str
 	if index < 0 {
 		return "", errors.New("Invalid image")
 	}
-	imgExt := imgBase64[11:index]
+	imgExt := strings.ToLower(imgBase64[11:index])
 	unbasedImage, err := base64.StdEncoding.DecodeString(imgBase64[index+8:])
 	if err != nil {
 		return "", err
